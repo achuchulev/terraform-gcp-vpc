@@ -15,6 +15,6 @@ variable "gcp_region" {
 
 variable "gcp_subnet1_cidr" {
   description = "VPC subnet CIDR block"
-  default = "10.240.0.0/24"
+  default     = "10.24.0.0/24"
 }
 
