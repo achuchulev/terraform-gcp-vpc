@@ -8,19 +8,20 @@
 
 ## How to use
 
-- Get the repo
-
-```
-git clone https://github.com/achuchulev/terraform-gcp-vpc.git
-cd terraform-gcp-vpc
-```
-
 - Create `terraform.tfvars` file
 
 ```
 gcp_credentials_file_path = "/path/to/your/gcloud/credentials.json"
-
 gcp_project_id = "your-gcp-project-id"
+```
+
+#### Create `variables.tf` file
+
+```
+variable "gcp_credentials_file_path" {}
+variable "gcp_project_id" {}
+variable "gcp_region" {}
+variable "gcp_subnet1_cidr" {}
 ```
 
 #### Inputs
@@ -31,6 +32,33 @@ gcp_project_id = "your-gcp-project-id"
 | gcp_project_id | GCP Project ID. | string  | - | yes
 | gcp_region | Requester AWS secret key | string  | us-east4 | yes
 | gcp_subnet1_cidr | VPC subnet CIDR block | string  | 10.24.0.0/24 | yes
+
+
+#### Create `main.tf` file
+
+```
+module "new_gcp_vpc" {
+  source = "git@github.com:achuchulev/terraform-gcp-vpc.git"
+  
+  gcp_credentials_file_path = var.gcp_credentials_file_path
+  gcp_project_id            = var.gcp_project_id
+  gcp_region                = var.gcp_region
+  gcp_subnet1_cidr          = var.gcp_subnet1_cidr
+}
+
+```
+
+#### Create `outputs.tf` file
+
+```
+output "gcp_vpc_network_id" {
+  value = module.new_gcp_vpc.gcp_vpc_network_id
+}
+
+output "gcp_vpc_network_subnet_id" {
+  value = module.new_gcp_vpc.gcp_vpc_network_subnet_id
+}
+```
 
 - Initialize terraform and plan/apply
 
