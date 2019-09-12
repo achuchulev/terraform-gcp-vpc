@@ -15,7 +15,7 @@ gcp_credentials_file_path = "/path/to/your/gcloud/credentials.json"
 gcp_project_id = "your-gcp-project-id"
 ```
 
-#### Create `variables.tf` file
+-  Create `variables.tf` file
 
 ```
 variable "gcp_credentials_file_path" {}
@@ -34,7 +34,7 @@ variable "gcp_subnet1_cidr" {}
 | gcp_subnet1_cidr | VPC subnet CIDR block | string  | 10.24.0.0/24 | yes
 
 
-#### Create `main.tf` file
+-  Create `main.tf` file
 
 ```
 module "new_gcp_vpc" {
@@ -48,7 +48,7 @@ module "new_gcp_vpc" {
 
 ```
 
-#### Create `outputs.tf` file
+-  Create `outputs.tf` file
 
 ```
 output "gcp_vpc_network_id" {
