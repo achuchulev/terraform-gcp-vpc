@@ -1,4 +1,4 @@
-# Sample terraform configuration to create VPC on Google Cloud Platform (GCP)
+# Sample terraform configuration to create VPC with Cloud NAT on Google Cloud Platform (GCP)
 
 # Prerequisites
 
