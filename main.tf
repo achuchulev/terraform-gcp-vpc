@@ -13,6 +13,28 @@ resource "google_compute_subnetwork" "gcp-vpc-subnet1" {
   region        = var.gcp_region
 }
 
+# Creates a Cloud NAT for GCP Compute instances with NO Public IPs to have access to Internet
+resource "google_compute_router" "router" {
+  name    = "router"
+  region  = google_compute_subnetwork.gcp-vpc-subnet1.region
+  network = google_compute_network.gcp-vpc-network.self_link
+  bgp {
+    asn = 64514
+  }
+}
+
+resource "google_compute_router_nat" "simple-nat" {
+  name                               = "nat-1"
+  router                             = google_compute_router.router.name
+  region                             = var.gcp_region
+  nat_ip_allocate_option             = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
+  subnetwork {
+    name                    = google_compute_subnetwork.gcp-vpc-subnet1.self_link
+    source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
+  }
+}
+
 # Allow ICMP
 resource "google_compute_firewall" "gcp-allow-icmp" {
   name    = "${google_compute_network.gcp-vpc-network.name}-gcp-allow-icmp"
